@@ -44,7 +44,8 @@ class Test_Pty_Serial_Open(unittest.TestCase):
         with serial.Serial(os.ttyname(self.slave), timeout=1) as slave:
             with os.fdopen(self.master, "rb") as fd:
                 slave.write(DATA)
-                slave.flush()
+                # Issue -> https://github.com/pyserial/pyserial/issues/654
+                # slave.flush()
                 out = fd.read(len(DATA))
                 self.assertEqual(DATA, out)
 
